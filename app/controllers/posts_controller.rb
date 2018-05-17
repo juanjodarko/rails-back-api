@@ -2,7 +2,11 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:update, :show, :destroy]
 
   def index
-    @posts = Post.all
+    if params['max']
+      @posts = Post.all.order('created_at DESC').limit(params['max'])
+    else
+      @posts = Post.all.order('created_at DESC')
+    end
     json_response(@posts)
   end
 
